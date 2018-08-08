@@ -22,12 +22,16 @@ public class EvalutionClass {
 		this.gameBoard = gameBoard;
 		int firstElementRowPosition;
 		int value = 0;
+	
 		for(int i=0;i<gameBoard.getNumberOfCol();i++) {
 			
 			firstElementRowPosition = gameBoard.getIndexOfFirstElement(i);
+			
+			//System.out.println("check position "+i+"     "+firstElementRowPosition);
+			
 			if( firstElementRowPosition != -1 ) {
 				value += getTheEvalutingValueOfThePostion(firstElementRowPosition,i) ;
-				//System.out.println( i+" /////??//// "+getTheEvalutingValueOfThePostion(firstElementRowPosition,i) );
+				System.out.println( i+" /////??//// "+getTheEvalutingValueOfThePostion(firstElementRowPosition,i) );
 			}
 		}
 		//System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhh   "+value );
@@ -81,12 +85,16 @@ public class EvalutionClass {
 		
 		
 		String evalutingDice = gameBoard.getDice(row, column);
-		int value = 0,space;
+		int value = 0,space,opponent;
 		
-		for(int i=0;i<4;i++) {
+		for(int i=0;i<=3;i++) {
+			
+			
+			//System.out.println("directional array start  ");
 			
 			count = 1;
 			space = 0;
+			opponent = 0;
 			currentXCoordinate = column;
 			currentYCoordinate = row;
 			
@@ -126,9 +134,9 @@ public class EvalutionClass {
 			
 			}
 			
-			value += getValue(count, space);
+			value += getValue(count, space, opponent);
 			
-			//System.out.println(count+"   "+space+"   "+getValue(count, space));
+			System.out.println(count+"   "+space+"   "+getValue(count, space,opponent));
 		}
 		
 		if(evalutingDice.equals(gameBoard.getUserDice())) value *= -1;
@@ -138,9 +146,10 @@ public class EvalutionClass {
 	}
 	
 	
-	int getValue(int count, int space) {
+	int getValue(int count, int space,int opponent) {
 		
-		if(count==3 && space==0 ) return 0;
+		if(opponent ==3 ) return 1000;
+		else if(count==3 && space==0 ) return 0;
 		else if(count ==3 && space>=2 ) return 80;
 		else if(count ==3 && space==1 ) return 50;
 		else if(count ==2 && space==0 ) return 0;

@@ -1,5 +1,6 @@
 package ConnectFourGamePackage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -8,12 +9,15 @@ import java.util.Random;
 public class MiniMaxClass {
 
 	
-	private final static int DEPTH_LIMIT=5;
+	//private final static int DEPTH_LIMIT=5;
 	
+	int DEPTH_LIMIT;
 	
-	public int getNextMove(GameBoardClass gameBoard)
+	public int getNextMove(GameBoardClass gameBoard,int depth) 
 	{
 		ArrayList<PairClass> pairList = new ArrayList<>();
+		
+		DEPTH_LIMIT = depth;
 	
 		for(int i=0;i<gameBoard.getNumberOfCol();i++) {
 			
@@ -29,7 +33,7 @@ public class MiniMaxClass {
 				
 				pairList.add(new PairClass(i, value));
 				
-				///System.out.println(i+"----------------    "+value);
+				System.out.println(i+"   ----------------    "+value);
 			}
 			
 		}
@@ -43,6 +47,7 @@ public class MiniMaxClass {
 		Collections.sort(pairList);
 		
 		int value = pairList.get( pairList.size() -1 ).value;
+		int check;
 		
 		int index;
 		ArrayList< PairClass > maxArr = new ArrayList<>();
@@ -57,14 +62,21 @@ public class MiniMaxClass {
 			Random r= new Random();
 			int rand = r.nextInt(maxArr.size());
 			index = maxArr.get(rand).column;
+			check = maxArr.get(rand).value;
 		}
 		
 		else {
 			index = maxArr.get(0).column;
+			check = maxArr.get(0).value;
 		}
-		
+		System.out.println("The value is "+ check+" for column "+index);
 		return index;
 	}
+	
+	
+	
+
+	
 
 	private int createAndTraverseTree(GameBoardClass currentGameBoard, int depth) {
 		
@@ -75,6 +87,8 @@ public class MiniMaxClass {
 		
 		if(depth==DEPTH_LIMIT) {
 			
+			
+			//currentGameBoard.printFinalGameBoard();
 			EvalutionClass ec = new EvalutionClass();
 			
 			return ec.getTheValueOfEvalutionFunction(currentGameBoard);

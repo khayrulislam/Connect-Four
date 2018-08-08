@@ -1,10 +1,11 @@
 package ConnectFourGamePackage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainClass {
 
-	public static void main(String[] args) throws CloneNotSupportedException {
+	public static void main(String[] args)  {
 		// TODO Auto-generated method stub
 
 		//GameBoardClass gbc = new GameBoardClass();

@@ -1,5 +1,6 @@
 package ConnectFourGamePackage;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -8,7 +9,7 @@ public class PlayGameClass {
 
 	int index;
 	
-	public void startGame() {
+	public void startGame()  {
 		
 		GameBoardClass gbc = new GameBoardClass();
 		gbc.createNewGameBoard();
@@ -43,13 +44,18 @@ public class PlayGameClass {
 	}
 	
 	
-	private int computerTurn(GameBoardClass gbc) {
+	private int computerTurn(GameBoardClass gbc)  {
 		// TODO Auto-generated method stub
 		System.out.println("computer turn : ");
 		MiniMaxClass mmc = new MiniMaxClass();
 		
-		int col = mmc.getNextMove(gbc);
+		//int col1 = mmc.getNextMove(gbc,5);
+		int col2 = mmc.getNextMove(gbc,1);
 		
-		return col;
+		//int col3 = mmc.getNextMove(gbc,1);
+		
+		//System.out.println(col1+ "  /////////////  "+ col2+"   ////////////////  "+col3);
+		
+		return col2;
 	}
 }
