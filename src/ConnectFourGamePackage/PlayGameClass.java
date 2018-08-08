@@ -50,7 +50,7 @@ public class PlayGameClass {
 		MiniMaxClass mmc = new MiniMaxClass();
 		
 		//int col1 = mmc.getNextMove(gbc,5);
-		int col2 = mmc.getNextMove(gbc,1);
+		int col2 = mmc.getNextMove(gbc,2);
 		
 		//int col3 = mmc.getNextMove(gbc,1);
 		

@@ -13,9 +13,22 @@ public class MiniMaxClass {
 	
 	int DEPTH_LIMIT;
 	
+	private ArrayList<PositionClass> getNextPlyCopy(ArrayList<PositionClass> nextPly ){
+		
+		ArrayList<PositionClass> newNextPly = new ArrayList<>();
+
+		for(int i=0;i<nextPly.size();i++) newNextPly.add(nextPly.get(i));
+		
+		return newNextPly;
+		
+	}
+	
+	
+	
 	public int getNextMove(GameBoardClass gameBoard,int depth) 
 	{
 		ArrayList<PairClass> pairList = new ArrayList<>();
+		
 		
 		DEPTH_LIMIT = depth;
 	
@@ -25,11 +38,15 @@ public class MiniMaxClass {
 			
 			if(emptyIndex != -1) {
 				
+				ArrayList<PositionClass> nextPly = new ArrayList<>();
+				
+				nextPly.add(new PositionClass(i, emptyIndex));
+				
 				GameBoardClass newGameBoard = gameBoard.getACopyOfGameBoardClass();
 				
 				newGameBoard.setDice(emptyIndex, i, newGameBoard.getPcDice());
 				
-				int value = createAndTraverseTree(newGameBoard,1);
+				int value = createAndTraverseTree(newGameBoard,1,nextPly);
 				
 				pairList.add(new PairClass(i, value));
 				
@@ -78,7 +95,7 @@ public class MiniMaxClass {
 
 	
 
-	private int createAndTraverseTree(GameBoardClass currentGameBoard, int depth) {
+	private int createAndTraverseTree(GameBoardClass currentGameBoard, int depth, ArrayList<PositionClass>  nextPly) {
 		
 		int currenteEmptyIndex;
 		
@@ -91,7 +108,7 @@ public class MiniMaxClass {
 			//currentGameBoard.printFinalGameBoard();
 			EvalutionClass ec = new EvalutionClass();
 			
-			return ec.getTheValueOfEvalutionFunction(currentGameBoard);
+			return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
 			
 		}
 		
@@ -105,20 +122,23 @@ public class MiniMaxClass {
 				
 				if(currenteEmptyIndex != -1 ) {
 					
+					ArrayList<PositionClass> newNextPly = new ArrayList<>();
+					newNextPly = getNextPlyCopy(nextPly);
+					newNextPly.add(new PositionClass(i, currenteEmptyIndex));
+					
 					GameBoardClass newBoard = currentGameBoard.getACopyOfGameBoardClass();
 					
 					if(depth%2 == 0)newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
 					
 					else newBoard.setDice(currenteEmptyIndex, i, newBoard.getUserDice());
 					
-					valueList.add( createAndTraverseTree(newBoard, depth+1) );
+					valueList.add( createAndTraverseTree(newBoard, depth+1, newNextPly) );
 				}
 				
 				else {
-					
-
+				
 					EvalutionClass ec = new EvalutionClass();
-					return ec.getTheValueOfEvalutionFunction(currentGameBoard);
+					return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
 					
 				}
 				
