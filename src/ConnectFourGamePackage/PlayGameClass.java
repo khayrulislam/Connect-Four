@@ -24,13 +24,19 @@ public class PlayGameClass {
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 			gbc.printFinalGameBoard();
 			
-			if(gbc.winCheck()) System.out.println("computer win ");
+			if(gbc.winCheck()) {
+				System.out.println("computer win ");
+				break;
+			}
 			
 			index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
 			gbc.printFinalGameBoard();
 			
-			if(gbc.winCheck()) System.out.println("uer win ");
+			if(gbc.winCheck()) {
+				System.out.println("uer win ");
+				break;
+			}
 			
 			
 			i++;
