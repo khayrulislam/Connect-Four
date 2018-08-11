@@ -17,7 +17,6 @@ public class PlayGameClass {
 		gbc.printFinalGameBoard();
 		
 		
-		
 		while(i<21) {
 			index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
