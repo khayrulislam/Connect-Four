@@ -11,6 +11,9 @@ public class MiniMaxClass {
 	
 	//private final static int DEPTH_LIMIT=5;
 	
+	private final static int MIN=-10000000;
+	private final static int MAX=100000000;
+	
 	int DEPTH_LIMIT;
 	
 	private ArrayList<PositionClass> getNextPlyCopy(ArrayList<PositionClass> nextPly ){
@@ -46,7 +49,19 @@ public class MiniMaxClass {
 				
 				newGameBoard.setDice(emptyIndex, i, newGameBoard.getPcDice());
 				
-				int value = createAndTraverseTree(newGameBoard,1,nextPly);
+				int value = createAndTraverseTree(newGameBoard,1,nextPly,false,MIN,MAX);
+				
+				
+				
+				
+				TakeChanceOrDefence chanceOrDefence = new TakeChanceOrDefence(gameBoard);
+				
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 100000;
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getUserDice())) value += 2000;
+				
+				
+				TakeChanceOrDefence chanceOrDefence2 = new TakeChanceOrDefence(newGameBoard);
+				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -10000;
 				
 				pairList.add(new PairClass(i, value));
 				
@@ -95,24 +110,105 @@ public class MiniMaxClass {
 
 	
 
-	private int createAndTraverseTree(GameBoardClass currentGameBoard, int depth, ArrayList<PositionClass>  nextPly) {
+	private int createAndTraverseTree(GameBoardClass currentGameBoard, int depth, ArrayList<PositionClass>  nextPly,boolean isMaximizer, int alpha,int beta ) {
 		
-		int currenteEmptyIndex;
+		int currenteEmptyIndex,best,calculatedValue;
 		
 		//System.out.println(depth+"          888888888888888888888888888888888888888888888888888888888888888888");
 		//currentGameBoard.printGameBoard();
 		
 		if(depth==DEPTH_LIMIT) {
 			
-			
-			//currentGameBoard.printFinalGameBoard();
 			EvalutionClass ec = new EvalutionClass();
 			
 			return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
 			
 		}
 		
-		else{
+		if(isMaximizer) {
+			best = MIN;
+			
+			//ArrayList<Integer> valueList = new ArrayList<>();
+			
+			for(int i=0;i<currentGameBoard.getNumberOfCol();i++) {
+				
+				currenteEmptyIndex = currentGameBoard.getEmptyIndexOfAColumn(i);
+				
+				if(currenteEmptyIndex != -1 ) {
+					
+					ArrayList<PositionClass> newNextPly = new ArrayList<>();
+					newNextPly = getNextPlyCopy(nextPly);
+					newNextPly.add(new PositionClass(i, currenteEmptyIndex));
+					
+					
+					GameBoardClass newBoard = currentGameBoard.getACopyOfGameBoardClass();
+					
+					newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
+					
+					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, false, alpha,  beta) ; 
+					
+					best = Math.max(best, calculatedValue);
+		            alpha = Math.max(alpha, best);
+		            
+		            if (beta <= alpha)
+		                break;
+				}
+				/*
+				else {
+				
+					EvalutionClass ec = new EvalutionClass();
+					return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
+					
+				}*/
+				
+			}
+			
+			
+			return best;
+			//System.out.println(valueList.toString()+" ccccccccccccccccccccccccccccccccccccccc");
+//			
+//			Collections.sort(valueList);
+//			
+//			if(depth%2==0) return valueList.get(valueList.size()-1);
+//			else return valueList.get(0);
+			
+			
+		}
+		
+		else {
+			best = MAX;
+			
+			for(int i=0;i<currentGameBoard.getNumberOfCol();i++) {
+				
+				currenteEmptyIndex = currentGameBoard.getEmptyIndexOfAColumn(i);
+				
+				if(currenteEmptyIndex != -1 ) {
+					
+					ArrayList<PositionClass> newNextPly = new ArrayList<>();
+					newNextPly = getNextPlyCopy(nextPly);
+					newNextPly.add(new PositionClass(i, currenteEmptyIndex));
+					
+					
+					GameBoardClass newBoard = currentGameBoard.getACopyOfGameBoardClass();
+					
+					newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
+					
+					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, true, alpha,  beta) ; 
+					
+					best = Math.min(best, calculatedValue);
+		            beta = Math.min(alpha, best);
+		            
+		            if (beta <= alpha)
+		                break;
+				}
+				
+			}
+			
+			return best;
+		}
+		
+		
+/*		else{
 			
 			ArrayList<Integer> valueList = new ArrayList<>();
 			
@@ -131,6 +227,8 @@ public class MiniMaxClass {
 					if(depth%2 == 0)newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
 					
 					else newBoard.setDice(currenteEmptyIndex, i, newBoard.getUserDice());
+					
+					
 					
 					valueList.add( createAndTraverseTree(newBoard, depth+1, newNextPly) );
 				}
@@ -151,7 +249,7 @@ public class MiniMaxClass {
 			if(depth%2==0) return valueList.get(valueList.size()-1);
 			else return valueList.get(0);
 			
-		}
+		}*/
 	}
 	
 }

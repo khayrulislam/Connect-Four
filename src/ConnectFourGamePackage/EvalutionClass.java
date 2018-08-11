@@ -8,9 +8,7 @@ public class EvalutionClass {
 	private final static int fx[]={0,0,1,-1,-1,1,-1,1};
 	private final static int fy[]={-1,1,0,0,1,1,-1,-1};
 	
-	
-	private final static int fxx[]={0,-1,-1,-1};
-	private final static int fyy[]={-1,0,-1,1};
+
 	
 	
 	
@@ -30,7 +28,7 @@ public class EvalutionClass {
 			
 			//gameBoard.printFinalGameBoard();
 			value += getTheEvalutingValueOfThePostion(nextPly.get(i).getyAxis(), nextPly.get(i).getxAxis());
-			System.out.println(nextPly.get(i).getxAxis()+"   hhhhhhhhhhhhhhhhhhhhhhhhhh   "+value );
+			//System.out.println(nextPly.get(i).getxAxis()+"   hhhhhhhhhhhhhhhhhhhhhhhhhh   "+value );
 		}
 	
 		/*for(int i=0;i<gameBoard.getNumberOfCol();i++) {
@@ -60,106 +58,29 @@ public class EvalutionClass {
 	
 
 	private int getTheEvalutingValueOfThePostion(int row, int column) {
-		/*
-		String evalutingDice = gameBoard.getDice(row, column);
-		int value = 0;
-		
-		for(int i=0;i<DIRECTION;i++) {
-			
-			count = 1;
-			currentXCoordinate = column;
-			currentYCoordinate = row;
-			
-			for(int j=0;j<3;j++) {
-				
-				currentXCoordinate += fx[i];
-				currentYCoordinate += fy[i];
-				
-				if( currentXCoordinate < 0 || currentYCoordinate <0 
-						|| currentXCoordinate> (gameBoard.getNumberOfCol()-1) || currentYCoordinate > (gameBoard.getNumberOfRow()-1)  ) break;
-				
-				else if(gameBoard.getDice(currentYCoordinate, currentXCoordinate).equals( "." )) continue;
-				
-				else if( evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) count++;
-				
-				else if( ! evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) break;
-
-			}
-			
-			value += getHuristicValue(count);
-		}
-		
-		if(evalutingDice.equals(gameBoard.getUserDice())) value *= -1;
-		
-		return value;*/
-		
+	
 		
 		int value = 0;
 		
-
 		for(int i=0;i<=3;i++) {
 			
+			//System.out.println(column+"-----------------"+row);
 			
-			//System.out.println("directional array start  ");
+			gameBoard.executeDirectionalCount(column, row, i);
 			
-			count = 1;
-			space = 0;
-			opponent = 0;
+			value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount());
+
+			opponent = gameBoard.getOpponentDiceCount();
+			space = gameBoard.getEmptyOpponentSpaceCount();
 			
+			if (opponent==2 && space>=0) value += 1000;
+			else if(opponent==3 && space >= 0) value+= 2000;
 			
-			getDirectionalCount( column, row, 1, i);
-			getDirectionalCount( column, row, -1, i);
-			
-			/*currentXCoordinate = column;
-			currentYCoordinate = row;
-			
-			
-			for(int j=0;j<3;j++) {
-				
-				currentXCoordinate += fxx[i];
-				currentYCoordinate += fyy[i];
-				
-				if( currentXCoordinate < 0 || currentYCoordinate <0 
-						|| currentXCoordinate> (gameBoard.getNumberOfCol()-1) || currentYCoordinate > (gameBoard.getNumberOfRow()-1)  ) break;
-				
-				else if(gameBoard.getDice(currentYCoordinate, currentXCoordinate).equals( "." )) space++;
-				
-				else if( evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) count++;
-				
-				else if( ! evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) break;
-			
-			}
-			
-			currentXCoordinate = column;
-			currentYCoordinate = row;
-			
-			for(int j=0;j<3;j++) {
-				
-				currentXCoordinate += fxx[i]*-1;
-				currentYCoordinate += fyy[i]*-1;
-				
-				if( currentXCoordinate < 0 || currentYCoordinate <0 
-						|| currentXCoordinate> (gameBoard.getNumberOfCol()-1) || currentYCoordinate > (gameBoard.getNumberOfRow()-1)  ) break;
-				
-				else if(gameBoard.getDice(currentYCoordinate, currentXCoordinate).equals( "." )) space++;
-				
-				else if( evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) count++;
-				
-				else if( ! evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) break;
-			
-			}
-			*/
-			value += getValue(count, space);
-			
-			space = 0;
-			getDefenciveReward( column, row, 1, i);
-			getDefenciveReward( column, row, -1, i);
-			
-			if (opponent==2 && space>=1) value += 1000;
-			else if(opponent==3 && space >= 0) value+= 1000;
-			
-			//System.out.println("/////////////////////////   "+  opponent);
+			//System.out.println(opponent+" ++++++++++++++++ "+space);
 		}
+		
+		
+
 		
 		if(gameBoard.getDice(row, column).equals(gameBoard.getUserDice())) value *= -1;
 		
@@ -167,57 +88,7 @@ public class EvalutionClass {
 		
 	}
 	
-	
-	private void getDefenciveReward(int column,int row,int direction,int i) {
-		
-		String evalutingDice = gameBoard.getDice(row, column);
-		currentXCoordinate = column;
-		currentYCoordinate = row;
-		
-		for(int j=0;j<3;j++) {
-			
-			//System.out.println("/4444444444444444444444444444      "+  opponent);
-			
-			currentXCoordinate += fxx[i]*direction;
-			currentYCoordinate += fyy[i]*direction;
-			
-			if( currentXCoordinate < 0 || currentYCoordinate <0 
-					|| currentXCoordinate> (gameBoard.getNumberOfCol()-1) || currentYCoordinate > (gameBoard.getNumberOfRow()-1)  ) break;
-			
-			else if(gameBoard.getDice(currentYCoordinate, currentXCoordinate).equals( "." )) space++;
-			
-			else if( evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) break;
-			
-			else if( ! evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) opponent++;
-		
-		}
-	}
-	
-	
-	private void getDirectionalCount(int column,int row,int direction,int i) {
-		
 
-		String evalutingDice = gameBoard.getDice(row, column);
-		currentXCoordinate = column;
-		currentYCoordinate = row;
-		
-		for(int j=0;j<3;j++) {
-			
-			currentXCoordinate += fxx[i]*direction;
-			currentYCoordinate += fyy[i]*direction;
-			
-			if( currentXCoordinate < 0 || currentYCoordinate <0 
-					|| currentXCoordinate> (gameBoard.getNumberOfCol()-1) || currentYCoordinate > (gameBoard.getNumberOfRow()-1)  ) break;
-			
-			else if(gameBoard.getDice(currentYCoordinate, currentXCoordinate).equals( "." )) space++;
-			
-			else if( evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) count++;
-			
-			else if( ! evalutingDice.equals( gameBoard.getDice(currentYCoordinate, currentXCoordinate) ) ) break;
-		
-		}
-		
-	}
 	
 	
 	

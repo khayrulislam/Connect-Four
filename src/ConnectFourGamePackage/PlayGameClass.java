@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class PlayGameClass {
 
 	int index;
-	
+	int i=0;
 	public void startGame()  {
 		
 		GameBoardClass gbc = new GameBoardClass();
@@ -16,17 +16,21 @@ public class PlayGameClass {
 		
 		gbc.printFinalGameBoard();
 		
-		int i=0;
+		
 		
 		while(i<21) {
 			index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
 			gbc.printFinalGameBoard();
 			
+			if(gbc.winCheck()) System.out.println("uer win ");
+			
 			
 			index = computerTurn(gbc);
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 			gbc.printFinalGameBoard();
+			
+			if(gbc.winCheck()) System.out.println("computer win ");
 			i++;
 		}
 		
@@ -49,8 +53,10 @@ public class PlayGameClass {
 		System.out.println("computer turn : ");
 		MiniMaxClass mmc = new MiniMaxClass();
 		
-		//int col1 = mmc.getNextMove(gbc,5);
-		int col2 = mmc.getNextMove(gbc,2);
+		//int col2 = mmc.getNextMove(gbc,3);
+		int col2;
+		if(i>8) col2 = mmc.getNextMove(gbc,5);
+		else col2 = mmc.getNextMove(gbc,2);
 		
 		//int col3 = mmc.getNextMove(gbc,1);
 		

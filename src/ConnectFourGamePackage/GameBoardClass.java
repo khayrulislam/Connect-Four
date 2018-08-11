@@ -14,6 +14,13 @@ public class GameBoardClass {
 	private final static String EMPTY_BOARD_VALUE = ".";
 	private final static String PC_DICE = "O";
 	private final static String USER_DICE = "X";
+	private int currentXCoordinate,currentYCoordinate;
+	
+	private int emptySpaceCount,emptyOpponentSpaceCount,evalutingDiceCount,opponentDiceCount;
+	
+	
+	private final static int fxx[]={0,-1,-1,-1};
+	private final static int fyy[]={-1,0,-1,1};
 	
 	
 	public static int getNumberOfRow() {
@@ -45,6 +52,21 @@ public class GameBoardClass {
 		return;
 	}
 	
+	public int getEmptySpaceCount() {
+		return emptySpaceCount;
+	}
+
+	public int getEmptyOpponentSpaceCount() {
+		return emptyOpponentSpaceCount;
+	}
+
+	public int getEvalutingDiceCount() {
+		return evalutingDiceCount;
+	}
+
+	public int getOpponentDiceCount() {
+		return opponentDiceCount;
+	}
 	
 	
 	public GameBoardClass getACopyOfGameBoardClass() {
@@ -142,6 +164,123 @@ public class GameBoardClass {
 	}
 	
 	
+	
+	private boolean outOfBoundCheck(int currentXCoordinate,int currentYCoordinate) {
+		
+		return ( currentXCoordinate < 0 || currentYCoordinate <0 
+				|| currentXCoordinate> (getNumberOfCol()-1) || currentYCoordinate > (getNumberOfRow()-1)  );
+	}
+	
+	private boolean isEmpty(int currentXCoordinate,int currentYCoordinate) {
+		
+		return getDice(currentYCoordinate, currentXCoordinate).equals( EMPTY_BOARD_VALUE );
+	}
+	
+	
+	private void attackingDirectionalCount(int currentXCoordinate,int currentYCoordinate,int direction,int i) {
+		
+
+		String evalutingDice = getDice(currentYCoordinate, currentXCoordinate);
+		
+		for(int j=0;j<3;j++) {
+			
+			currentXCoordinate += fxx[i]*direction;
+			currentYCoordinate += fyy[i]*direction;
+			
+			if(  outOfBoundCheck(currentXCoordinate, currentYCoordinate)  ) break;
+			
+			else if( isEmpty(currentXCoordinate, currentYCoordinate) ) emptySpaceCount++;
+			
+			else if( evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) evalutingDiceCount++;
+			
+			else if( ! evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) break;
+		
+		}
+		
+	}
+	
+	
+	private void defenciveDirectionCount(int currentXCoordinate,int currentYCoordinate,int direction,int i) {
+		
+		String evalutingDice = getDice(currentYCoordinate, currentXCoordinate);
+		
+		for(int j=0;j<3;j++) {
+			
+			currentXCoordinate += fxx[i]*direction;
+			currentYCoordinate += fyy[i]*direction;
+			
+			if( outOfBoundCheck(currentXCoordinate, currentYCoordinate)  ) break;
+			
+			else if( isEmpty(currentXCoordinate, currentYCoordinate)) break;//emptyOpponentSpaceCount++;
+			
+			else if( evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) break;
+			
+			else if( ! evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) opponentDiceCount++;
+		
+		}
+	}
+	
+	
+	public boolean winCheck() {
+		
+		for(int i=0;i<NUMBER_OF_COL;i++) {
+			
+			int row = getIndexOfFirstElement(i);
+			
+			if(row!=-1) {
+
+				for(int j=0;j<4;j++) {
+					
+					initializeProparty();
+					
+					//System.out.print(i+"       "+row);
+					
+					attackingDirectionalCount(i, row, 1, j);
+					attackingDirectionalCount(i, row, -1, j);
+					
+					//System.out.println(getEvalutingDiceCount());
+					
+					if(getEvalutingDiceCount()>=3) return true;
+					
+				}	
+			}
+			
+			
+		}
+		return false;
+		
+	}
+	
+	
+	public void executeDirectionalCount( int column,int row ,int i ) {
+		
+		initializeProparty();
+			
+		attackingDirectionalCount(column, row, 1, i);
+		
+		//System.out.println(column+"-----------------"+row);
+		attackingDirectionalCount(column, row, -1, i);
+		
+		//System.out.println(column+"-----------------"+row);
+		defenciveDirectionCount(column, row, 1, i);
+		//System.out.println(column+"-----------------"+row);
+		
+		defenciveDirectionCount(column, row, -1, i);
+		//System.out.println(column+"-----------------"+row);
+		
+		
+	}
+	
+	
+
+
+	private void initializeProparty() {
+		emptySpaceCount = 0;
+		emptyOpponentSpaceCount = 0;
+		evalutingDiceCount = 0;
+		opponentDiceCount = 0;
+	}
+
 	public void printGameBoard() {
 		
 		for(int j=0;j<NUMBER_OF_COL;j++)  System.out.print(j+"\t" );
