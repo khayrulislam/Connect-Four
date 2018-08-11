@@ -18,6 +18,14 @@ public class PlayGameClass {
 		
 		
 		while(i<21) {
+			
+
+			index = computerTurn(gbc);
+			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
+			gbc.printFinalGameBoard();
+			
+			if(gbc.winCheck()) System.out.println("computer win ");
+			
 			index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
 			gbc.printFinalGameBoard();
@@ -25,11 +33,6 @@ public class PlayGameClass {
 			if(gbc.winCheck()) System.out.println("uer win ");
 			
 			
-			index = computerTurn(gbc);
-			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
-			gbc.printFinalGameBoard();
-			
-			if(gbc.winCheck()) System.out.println("computer win ");
 			i++;
 		}
 		
