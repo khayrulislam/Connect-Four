@@ -22,40 +22,14 @@ public class EvalutionClass {
 		this.gameBoard = gameBoard;
 		int firstElementRowPosition;
 		int value = 0;
-		
+
 		
 		for(int i=0;i<nextPly.size();i++) {
-			
-			//gameBoard.printFinalGameBoard();
 			value += getTheEvalutingValueOfThePostion(nextPly.get(i).getyAxis(), nextPly.get(i).getxAxis());
-			//System.out.println(nextPly.get(i).getxAxis()+"   hhhhhhhhhhhhhhhhhhhhhhhhhh   "+value );
 		}
-	
-		/*for(int i=0;i<gameBoard.getNumberOfCol();i++) {
-			
-			firstElementRowPosition = gameBoard.getIndexOfFirstElement(i);
-			
-			//System.out.println("check position "+i+"     "+firstElementRowPosition);
-			
-			if( firstElementRowPosition != -1 ) {
-				value += getTheEvalutingValueOfThePostion(firstElementRowPosition,i) ;
-				System.out.println( i+" /////??//// "+getTheEvalutingValueOfThePostion(firstElementRowPosition,i) );
-			}
-		}*/
-		//System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhh   "+value );
+		
 		return value;
 	}
-	
-	private int getHuristicValue(int count) {
-		
-		if(count==2) return 5;
-		else if(count==3) return 100;
-		else if(count==4) return 10000;
-		
-		return 0;
-		
-	}
-	
 
 	private int getTheEvalutingValueOfThePostion(int row, int column) {
 	
@@ -68,19 +42,16 @@ public class EvalutionClass {
 			
 			gameBoard.executeDirectionalCount(column, row, i);
 			
-			value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount());
-
+			value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount())  ; 
+			
 			opponent = gameBoard.getOpponentDiceCount();
 			space = gameBoard.getEmptyOpponentSpaceCount();
 			
-			if (opponent==2 && space>=0) value += 1000;
-			else if(opponent==3 && space >= 0) value+= 2000;
+			if (opponent==2 && space>=0) value +=200  ;
+			else if(opponent==3 && space >= 0) value+=  500 ;
 			
-			//System.out.println(opponent+" ++++++++++++++++ "+space);
 		}
 		
-		
-
 		
 		if(gameBoard.getDice(row, column).equals(gameBoard.getUserDice())) value *= -1;
 		
@@ -90,11 +61,19 @@ public class EvalutionClass {
 	
 
 	
-	
-	
 	int getValue(int count, int space) {
+
+		if(count ==3 && space>=1 ) return count*count;
 		
+		else if(count ==2 && space>=2 ) return count*count;
 		
+		else if(count ==1 && space>=3 ) return count*count;
+		
+		else if(count ==4) return 100000;
+		
+		return 0;
+		
+		/*
 		if(count==3 && space==0 ) return 0;
 		else if(count ==3 && space>=2 ) return 80;
 		else if(count ==3 && space==1 ) return 50;
@@ -104,7 +83,7 @@ public class EvalutionClass {
 		else if(count ==2 && space>=3 ) return 35;
 		else if(count ==1 && space>=3 ) return 1;
 		else if(count ==4 ) return 10000;
-		return 0;
+		return 0;*/
 	}
 	
 	

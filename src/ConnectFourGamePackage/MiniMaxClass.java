@@ -34,6 +34,9 @@ public class MiniMaxClass {
 		
 		
 		DEPTH_LIMIT = depth;
+		
+		
+		System.out.println("depth limit  "+ DEPTH_LIMIT);
 	
 		for(int i=0;i<gameBoard.getNumberOfCol();i++) {
 			
@@ -65,6 +68,10 @@ public class MiniMaxClass {
 				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
 				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getUserDice())) value += 200000;
 				
+				
+				//
+				//if(chanceOrDefence.shouldTakeChanceOrDefence2(i, gameBoard.getUserDice())) value += 20000;
+				
 				//if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
 				
 				pairList.add(new PairClass(i, value));
@@ -94,11 +101,17 @@ public class MiniMaxClass {
 			else break;
 		}
 		
+		
 		if(maxArr.size()>1) {
 			Random r= new Random();
 			int rand = r.nextInt(maxArr.size());
 			index = maxArr.get(rand).column;
 			check = maxArr.get(rand).value;
+			
+			
+			
+			
+			
 		}
 		
 		else {
@@ -125,7 +138,19 @@ public class MiniMaxClass {
 			
 			EvalutionClass ec = new EvalutionClass();
 			
-			return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
+			int value = ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
+			/*
+			//////////
+			TakeChanceOrDefence chanceOrDefence = new TakeChanceOrDefence(currentGameBoard);
+			for(int i = 0; i < 7; i++) {
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, currentGameBoard.getPcDice())) value += 1000000;
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, currentGameBoard.getUserDice())) value += 200000;
+			}
+			//////////////////*/
+			return value;
+			
+			
+			//return ec.getTheValueOfEvalutionFunction(currentGameBoard, nextPly);
 			
 		}
 		
@@ -133,8 +158,11 @@ public class MiniMaxClass {
 			best = MIN;
 			
 			//ArrayList<Integer> valueList = new ArrayList<>();
+			//System.out.println("           maxxxxxxxxxx      ");
 			
 			for(int i=0;i<currentGameBoard.getNumberOfCol();i++) {
+				
+				
 				
 				currenteEmptyIndex = currentGameBoard.getEmptyIndexOfAColumn(i);
 				
@@ -149,7 +177,11 @@ public class MiniMaxClass {
 					
 					newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
 					
+					//newBoard.printFinalGameBoard();
+					
 					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, false, alpha,  beta) ; 
+					
+					//System.out.println("|Max Value "+ calculatedValue+"      depth     "+depth);
 					
 					best = Math.max(best, calculatedValue);
 		            alpha = Math.max(alpha, best);
@@ -182,9 +214,17 @@ public class MiniMaxClass {
 		else {
 			best = MAX;
 			
+			//currentGameBoard.printFinalGameBoard();
+			
+			//System.out.println("           minimizer      ");
+			
 			for(int i=0;i<currentGameBoard.getNumberOfCol();i++) {
 				
 				currenteEmptyIndex = currentGameBoard.getEmptyIndexOfAColumn(i);
+				
+				//System.out.println("collumn   "+currentGameBoard.getNumberOfCol());
+				
+				//System.out.println(" Min call "+ i+"   empty index  "+currenteEmptyIndex+"  tree height  "+depth);
 				
 				if(currenteEmptyIndex != -1 ) {
 					
@@ -197,13 +237,17 @@ public class MiniMaxClass {
 					
 					newBoard.setDice(currenteEmptyIndex, i, newBoard.getUserDice());
 					
+					//newBoard.printFinalGameBoard();
 					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, true, alpha,  beta) ; 
 					
 					best = Math.min(best, calculatedValue);
-		            beta = Math.min(alpha, best);
+		            beta = Math.min(beta, best);
 		            
-		            if (beta <= alpha)
-		                break;
+		            //System.out.println("best value   "+ best);
+		            
+		            if (beta <= alpha) 
+		            	break;
+		            
 				}
 				
 			}

@@ -26,7 +26,7 @@ public class PlayGameClass {
 			gbc.printFinalGameBoard();
 			
 			if(gbc.winCheck()) {
-				System.out.println("uer win ");
+				System.out.println("user win ");
 				break;
 			}
 			
@@ -63,12 +63,12 @@ public class PlayGameClass {
 		System.out.println("computer turn : ");
 		MiniMaxClass mmc = new MiniMaxClass();
 		
-		//int col2 = mmc.getNextMove(gbc,3);
-		int col2;
+		int col2 = mmc.getNextMove(gbc,9);
+	/*	int col2;
 		
 		if(i>8) col2 = mmc.getNextMove(gbc,6);
 		else col2 = mmc.getNextMove(gbc,2);
-		
+		*/
 		//int col3 = mmc.getNextMove(gbc,1);
 		
 		//System.out.println(col1+ "  /////////////  "+ col2+"   ////////////////  "+col3);

@@ -88,6 +88,59 @@ public class TakeChanceOrDefence {
 		
 		return false;
 	}
+	
+	
+public boolean shouldTakeChanceOrDefence2(int col, String dice) {
+		
+		
+		int row = gameBoard.getEmptyIndexOfAColumn(col);
+		
+		for(int i = 0; i < 8; i++) {
+			//int numberOfOpponent = 0;
+			int tempRow = row;
+			int tempCol = col; 
+			
+			
+			int toX = fx[i];
+			int toY = fy[i];
+			
+			int opponent = 0;
+			for(int j = 0; j < 2; j++) {
+				tempCol += toX;
+				tempRow += toY;
+				
+				opponent += checkMatch(tempRow, tempCol, dice);
+			}
+			if(opponent == 2) return true;
+			
+			//System.out.println(i + " "+ opponent); 
+		}
+		
+		for(int i = 0; i < 8; i++) {
+			int tempRow = row;
+			int tempCol = col;
+			int toX = fx[i];
+			int toY = fy[i];
+			int opponent = 0;
+			
+			for(int j = 0; j < 1; j++) {
+				tempCol += toX;
+				tempRow += toY;
+				opponent += checkMatch(tempRow, tempCol, dice);
+			}
+			
+			
+			
+			int k = 8 - (i + 1);
+			tempRow = row + fy[k];
+			tempCol = col + fx[k];
+			opponent += checkMatch(tempRow, tempCol, dice);
+			if(opponent == 3) return true;
+		}
+		
+		return false;
+	}
+
 
 
 	private int checkMatch(int row, int col, String dice) {
