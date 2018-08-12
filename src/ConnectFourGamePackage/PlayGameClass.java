@@ -14,28 +14,63 @@ public class PlayGameClass {
 		GameBoardClass gbc = new GameBoardClass();
 		gbc.createNewGameBoard();
 		
+		
+		
+		
+		System.out.println("Enter 1 if you want take the first move or enter 0 : ");
+		
+		Scanner sc = new Scanner(System.in);
+		String input = sc.nextLine();
+		boolean turn = false;
+		if( input.equals("1") ) {
+			turn = true;
+		}
+		else if ( input.equals("0") ) {
+			turn = false;
+		}
+		
+		else {
+			return;
+		}
+			
 		gbc.printFinalGameBoard();
+
 		
-		
-		while(i<21) {
+		while(i<42) {
 			
+			if(turn) {
+				
+				index = userTurn();
+				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
+				gbc.printFinalGameBoard();
+				
+				turn = false;
+			}
 			
+			else {
+
+				index = computerTurn(gbc);
+				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
+				gbc.printFinalGameBoard();
+				
+				turn = true;
+			}
 			
-			index = userTurn();
+		/*	index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
-			gbc.printFinalGameBoard();
+			gbc.printFinalGameBoard();*/
 			
-			if(gbc.winCheck()) {
+			if(gbc.winCheck()  && turn) {
 				System.out.println("user win ");
 				break;
 			}
 			
 
-			index = computerTurn(gbc);
+			/*index = computerTurn(gbc);
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
-			gbc.printFinalGameBoard();
+			gbc.printFinalGameBoard();*/
 			
-			if(gbc.winCheck()) {
+			else if(gbc.winCheck()  && !turn) {
 				System.out.println("computer win ");
 				break;
 			}
