@@ -201,6 +201,31 @@ public class GameBoardClass {
 	}
 	
 	
+	
+	private void winningDirectionalCount(int currentXCoordinate,int currentYCoordinate,int direction,int i) {
+		
+
+		String evalutingDice = getDice(currentYCoordinate, currentXCoordinate);
+		
+		
+		for(int j=0;j<3;j++) {
+			
+			currentXCoordinate += fxx[i]*direction;
+			currentYCoordinate += fyy[i]*direction;
+			
+			if(  outOfBoundCheck(currentXCoordinate, currentYCoordinate)  ) break;
+			
+			else if( isEmpty(currentXCoordinate, currentYCoordinate) ) break;
+			
+			else if( evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) evalutingDiceCount++;
+			
+			else if( ! evalutingDice.equals( getDice(currentYCoordinate, currentXCoordinate) ) ) break;
+		
+		}
+		
+	}
+	
+	
 	private void defenciveDirectionCount(int currentXCoordinate,int currentYCoordinate,int direction,int i) {
 		
 		String evalutingDice = getDice(currentYCoordinate, currentXCoordinate);
@@ -234,8 +259,8 @@ public class GameBoardClass {
 					
 					initializeProparty();
 					
-					attackingDirectionalCount(i, row, 1, j);
-					attackingDirectionalCount(i, row, -1, j);
+					winningDirectionalCount(i, row, 1, j);
+					winningDirectionalCount(i, row, -1, j);
 					
 					
 					if(getEvalutingDiceCount()>=3 ) return true;
