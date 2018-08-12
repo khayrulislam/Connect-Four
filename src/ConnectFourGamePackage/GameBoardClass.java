@@ -240,7 +240,7 @@ public class GameBoardClass {
 					
 					//System.out.println(getEvalutingDiceCount());
 					
-					if(getEvalutingDiceCount()>=3) return true;
+					if(getEvalutingDiceCount()>=3 && getEmptySpaceCount()!=0) return true;
 					
 				}	
 			}

@@ -63,6 +63,7 @@ public class MiniMaxClass {
 				TakeChanceOrDefence chanceOrDefence2 = new TakeChanceOrDefence(newGameBoard);
 				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -10000;
 				
+				
 				pairList.add(new PairClass(i, value));
 				
 				System.out.println(i+"   ----------------    "+value);
@@ -191,7 +192,7 @@ public class MiniMaxClass {
 					
 					GameBoardClass newBoard = currentGameBoard.getACopyOfGameBoardClass();
 					
-					newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
+					newBoard.setDice(currenteEmptyIndex, i, newBoard.getUserDice());
 					
 					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, true, alpha,  beta) ; 
 					
