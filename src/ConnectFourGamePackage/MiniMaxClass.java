@@ -56,13 +56,16 @@ public class MiniMaxClass {
 				
 				TakeChanceOrDefence chanceOrDefence = new TakeChanceOrDefence(gameBoard);
 				
-				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
-				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getUserDice())) value += 200000;
 				
 				
 				TakeChanceOrDefence chanceOrDefence2 = new TakeChanceOrDefence(newGameBoard);
 				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -10000;
 				
+
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
+				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getUserDice())) value += 200000;
+				
+				//if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
 				
 				pairList.add(new PairClass(i, value));
 				

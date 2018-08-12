@@ -65,7 +65,8 @@ public class PlayGameClass {
 		
 		//int col2 = mmc.getNextMove(gbc,3);
 		int col2;
-		if(i>8) col2 = mmc.getNextMove(gbc,5);
+		
+		if(i>8) col2 = mmc.getNextMove(gbc,6);
 		else col2 = mmc.getNextMove(gbc,2);
 		
 		//int col3 = mmc.getNextMove(gbc,1);

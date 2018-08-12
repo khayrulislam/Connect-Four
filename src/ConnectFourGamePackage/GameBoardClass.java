@@ -182,6 +182,7 @@ public class GameBoardClass {
 
 		String evalutingDice = getDice(currentYCoordinate, currentXCoordinate);
 		
+		
 		for(int j=0;j<3;j++) {
 			
 			currentXCoordinate += fxx[i]*direction;
@@ -233,19 +234,16 @@ public class GameBoardClass {
 					
 					initializeProparty();
 					
-					//System.out.print(i+"       "+row);
-					
 					attackingDirectionalCount(i, row, 1, j);
 					attackingDirectionalCount(i, row, -1, j);
 					
-					//System.out.println(getEvalutingDiceCount());
 					
-					if(getEvalutingDiceCount()>=3 && getEmptySpaceCount()!=0) return true;
+					if(getEvalutingDiceCount()>=3 ) return true;
 					
 				}	
 			}
 			
-			
+			//System.out.println(getEvalutingDiceCount());
 		}
 		return false;
 		
@@ -275,10 +273,10 @@ public class GameBoardClass {
 
 
 	private void initializeProparty() {
-		emptySpaceCount = 0;
-		emptyOpponentSpaceCount = 0;
-		evalutingDiceCount = 0;
-		opponentDiceCount = 0;
+		this.emptySpaceCount = 0;
+		this.emptyOpponentSpaceCount = 0;
+		this.evalutingDiceCount = 0;
+		this.opponentDiceCount = 0;
 	}
 
 	public void printGameBoard() {
