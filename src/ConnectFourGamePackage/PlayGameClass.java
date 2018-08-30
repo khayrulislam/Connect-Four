@@ -49,7 +49,8 @@ public class PlayGameClass {
 			
 			else {
 
-				index = computerTurn(gbc);
+				if(i==0)index = 3;
+				else index = computerTurn(gbc);
 				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 				gbc.printFinalGameBoard();
 				
@@ -60,7 +61,7 @@ public class PlayGameClass {
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
 			gbc.printFinalGameBoard();*/
 			
-			if(gbc.winCheck()  && turn) {
+			if(gbc.winCheck()  && !turn) {
 				System.out.println("user win ");
 				break;
 			}
@@ -70,7 +71,7 @@ public class PlayGameClass {
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 			gbc.printFinalGameBoard();*/
 			
-			else if(gbc.winCheck()  && !turn) {
+			else if(gbc.winCheck()  && turn) {
 				System.out.println("computer win ");
 				break;
 			}
@@ -98,7 +99,7 @@ public class PlayGameClass {
 		System.out.println("computer turn : ");
 		MiniMaxClass mmc = new MiniMaxClass();
 		
-		int col2 = mmc.getNextMove(gbc,9);
+		int col2 = mmc.getNextMove(gbc,7);
 	/*	int col2;
 		
 		if(i>8) col2 = mmc.getNextMove(gbc,6);

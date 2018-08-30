@@ -55,15 +55,15 @@ public class MiniMaxClass {
 				int value = createAndTraverseTree(newGameBoard,1,nextPly,false,MIN,MAX);
 				
 				
-				
+				if(i==3) value+=1;
 				
 				TakeChanceOrDefence chanceOrDefence = new TakeChanceOrDefence(gameBoard);
 				
 				
 				
 				TakeChanceOrDefence chanceOrDefence2 = new TakeChanceOrDefence(newGameBoard);
-				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -10000;
-				
+				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -100000;
+				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getPcDice())) value = -10000;
 
 				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getPcDice())) value += 1000000;
 				if(chanceOrDefence.shouldTakeChanceOrDefence(i, gameBoard.getUserDice())) value += 200000;
