@@ -99,7 +99,7 @@ public class PlayGameClass {
 		System.out.println("computer turn : ");
 		MiniMaxClass mmc = new MiniMaxClass();
 		
-		int col2 = mmc.getNextMove(gbc,7);
+		int col2 = mmc.getNextMove(gbc,8);
 	/*	int col2;
 		
 		if(i>8) col2 = mmc.getNextMove(gbc,6);

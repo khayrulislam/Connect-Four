@@ -44,11 +44,11 @@ public class EvalutionClass {
 			
 			value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount())  ; 
 			
-			opponent = gameBoard.getOpponentDiceCount();
-			space = gameBoard.getEmptyOpponentSpaceCount();
+			//opponent = gameBoard.getOpponentDiceCount();
+			//space = gameBoard.getEmptyOpponentSpaceCount();
 			
-			if (opponent==2 && space>=0) value +=200  ;
-			else if(opponent==3 && space >= 0) value+=  500 ;
+			//if (opponent==2 && space>=0) value +=200  ;
+			//else if(opponent==3 && space >= 0) value+=  500 ;
 			
 		}
 		
@@ -63,7 +63,15 @@ public class EvalutionClass {
 	
 	int getValue(int count, int space) {
 
-		if(count ==3 && space>=1 ) return count*count;
+		if(count==2) return 16;
+		
+		if(count==3) return 16*16;
+		
+		if(count==4) return 16*16*16;
+		
+		return 1;
+		
+		/*if(count ==3 && space>=1 ) return count*count;
 		
 		else if(count ==2 && space>=2 ) return count*count;
 		
@@ -71,7 +79,7 @@ public class EvalutionClass {
 		
 		else if(count ==4) return 100000;
 		
-		return 0;
+		return 0;*/
 		
 		/*
 		if(count==3 && space==0 ) return 0;
