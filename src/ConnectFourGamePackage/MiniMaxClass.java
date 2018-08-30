@@ -61,6 +61,9 @@ public class MiniMaxClass {
 				
 				
 				
+				
+				
+				
 				TakeChanceOrDefence chanceOrDefence2 = new TakeChanceOrDefence(newGameBoard);
 				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getUserDice())) value = -100000;
 				if(chanceOrDefence2.shouldTakeChanceOrDefence(i, newGameBoard.getPcDice())) value = -10000;
