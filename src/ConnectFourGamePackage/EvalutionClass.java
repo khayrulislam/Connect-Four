@@ -23,10 +23,18 @@ public class EvalutionClass {
 		int firstElementRowPosition;
 		int value = 0;
 
+		for(int i=0;i<6;i++) {
+			for(int j=0;j<7;j++) {
+				
+				if(!gameBoard.getDice(i, j).equals(".")) value += getTheEvalutingValueOfThePostion(i,j);
+				
+			}
+		}
 		
+		/*
 		for(int i=0;i<nextPly.size();i++) {
 			value += getTheEvalutingValueOfThePostion(nextPly.get(i).getyAxis(), nextPly.get(i).getxAxis());
-		}
+		}*/
 		
 		return value;
 	}
@@ -42,10 +50,15 @@ public class EvalutionClass {
 			
 			gameBoard.executeDirectionalCount(column, row, i);
 			
-			value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount())  ; 
+			if(i>1) value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount(),2)  ; 
+			else value += getValue(gameBoard.getEvalutingDiceCount()+1, gameBoard.getEmptySpaceCount(),1)  ; 
+			opponent = gameBoard.getOpponentDiceCount();
 			
-			//opponent = gameBoard.getOpponentDiceCount();
-			//space = gameBoard.getEmptyOpponentSpaceCount();
+			
+			space = gameBoard.getEmptyOpponentSpaceCount();
+			
+			
+			value += getValue(opponent+1, space,1);
 			
 			//if (opponent==2 && space>=0) value +=200  ;
 			//else if(opponent==3 && space >= 0) value+=  500 ;
@@ -61,15 +74,18 @@ public class EvalutionClass {
 	
 
 	
-	int getValue(int count, int space) {
+	int getValue(int count, int space,int priority) {
 
-		if(count==2) return 16;
+		if(count==2 && space>=2) return 16*priority;
+		else if(count==2 && space<2) return 8*priority;
 		
-		if(count==3) return 16*16;
+		else if(count==3 && space>=1) return 16*16*priority;
+		else if(count==3 && space<1) return 16*priority;
 		
-		if(count==4) return 16*16*16;
+		else if(count==4) return 16*16*16*priority;
+		else if(count==1 && space>=3) return 4*priority;
 		
-		return 1;
+		else return 1;
 		
 		/*if(count ==3 && space>=1 ) return count*count;
 		

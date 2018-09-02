@@ -181,8 +181,8 @@ public class MiniMaxClass {
 					newBoard.setDice(currenteEmptyIndex, i, newBoard.getPcDice());
 					
 					//newBoard.printFinalGameBoard();
-					
-					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, false, alpha,  beta) ; 
+					if(newBoard.winCheck()) calculatedValue = 16*16*16 * (DEPTH_LIMIT - depth );
+					else calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, false, alpha,  beta) ; 
 					
 					//System.out.println("|Max Value "+ calculatedValue+"      depth     "+depth);
 					
@@ -241,7 +241,9 @@ public class MiniMaxClass {
 					newBoard.setDice(currenteEmptyIndex, i, newBoard.getUserDice());
 					
 					//newBoard.printFinalGameBoard();
-					calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, true, alpha,  beta) ; 
+					
+					if(newBoard.winCheck()) calculatedValue = -1*16*16*16 * (DEPTH_LIMIT - depth );
+					else calculatedValue = createAndTraverseTree(newBoard, depth+1, newNextPly, true, alpha,  beta) ; 
 					
 					best = Math.min(best, calculatedValue);
 		            beta = Math.min(beta, best);
