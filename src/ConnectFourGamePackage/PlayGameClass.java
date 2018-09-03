@@ -44,42 +44,46 @@ public class PlayGameClass {
 				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
 				gbc.printFinalGameBoard();
 				
+				if(gbc.winCheck() ) {
+					System.out.println("user win ");
+					break;
+				}
+				
 				turn = false;
 			}
 			
 			else {
 
 				index = computerTurn(gbc);
+				if(i==0) index = 3;
 				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 				gbc.printFinalGameBoard();
+				
+				
+				if(gbc.winCheck() ) {
+					System.out.println("computer win ");
+					break;
+				}
 				
 				turn = true;
 			}
 			
 		/*	index = userTurn();
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
-			gbc.printFinalGameBoard();*/
+			gbc.printFinalGameBoard();
 			
-			if(gbc.winCheck()  && turn) {
-				System.out.println("user win ");
-				break;
-			}
-			
-
-			/*index = computerTurn(gbc);
+			index = computerTurn(gbc);
 			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
-			gbc.printFinalGameBoard();*/
+			gbc.printFinalGameBoard();
 			
-			else if(gbc.winCheck()  && !turn) {
-				System.out.println("computer win ");
-				break;
-			}
-	
+			*/
 			
+			
+		
 			i++;
 		}
 		
-
+		if(!gbc.winCheck())System.out.println("Match draw ");
 		
 	}
 	
