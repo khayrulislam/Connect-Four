@@ -54,12 +54,8 @@ public class PlayGameClass {
 			
 			else {
 
-				
-			
-
 				if(i==0)index = 3;
 				else index = computerTurn(gbc);
-
 				gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
 				gbc.printFinalGameBoard();
 				
@@ -73,24 +69,7 @@ public class PlayGameClass {
 			}
 			
 		/*	index = userTurn();
-			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getUserDice());
-			gbc.printFinalGameBoard();
 			
-<<<<<<< HEAD
-			index = computerTurn(gbc);
-=======
-			if(gbc.winCheck()  && !turn) {
-				System.out.println("user win ");
-				break;
-			}
-			
-
-			/*index = computerTurn(gbc);
->>>>>>> branch 'master' of https://github.com/khayrulislam/Connect-Four.git
-			gbc.setDice(gbc.getEmptyIndexOfAColumn(index), index, gbc.getPcDice());
-			gbc.printFinalGameBoard();
-			
-<<<<<<< HEAD
 			*/
 
 			 if(gbc.winCheck()  && turn) {
